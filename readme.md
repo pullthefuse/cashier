@@ -11,6 +11,14 @@
 
 Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://stripe.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
 
+## Create Subscription
+To create subscription inject array of plans. Quantity is optional and will default to 1. 
+
+$user->newSubscription(['plan' => 'plan_id', 'quantity' => 1])
+
+Tax can also be added as follows:
+$user->newSubscription(['plan' => 'plan_id', 'quantity' => 1])->withTax(5.00);
+
 ## Official Documentation
 
 Documentation for Cashier can be found on the [Laravel website](http://laravel.com/docs/billing).
