@@ -14,7 +14,10 @@ Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://s
 ## Create Subscription
 To create subscription inject array of plans. Quantity is optional and will default to 1. 
 
-    $user->newSubscription(['plan' => 'plan_id', 'quantity' => 1])
+    $user->newSubscription(['plan' => 'plan_id', 'quantity' => 1]);
+Or
+
+    $user->newSubscription(['plan_id']);
 
 Tax can also be added as follows:
     
