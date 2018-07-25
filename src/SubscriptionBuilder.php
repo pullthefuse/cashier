@@ -200,7 +200,7 @@ class SubscriptionBuilder
             $trialEndsAt = $this->trialExpires;
         }
 
-        return 'Success';
+        return $subscription;
     }
 
     /**
