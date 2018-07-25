@@ -70,7 +70,7 @@ class SubscriptionBuilder
      * @param  array  $items
      * @return void
      */
-    public function __construct($owner, $items)
+    public function __construct($owner, array $items)
     {
         $this->items = $items;
         $this->owner = $owner;
@@ -251,10 +251,28 @@ class SubscriptionBuilder
             'billing_cycle_anchor' => $this->billingCycleAnchor,
             'coupon' => $this->coupon,
             'metadata' => $this->metadata,
-            'items' => $this->items,
+            'items' => $this->buildItemArray(),
             'tax_percent' => $this->getTaxPercentageForPayload(),
             'trial_end' => $this->getTrialEndForPayload(),
         ]);
+    }
+
+    /*
+     * Build the items array.
+     *
+     * @return array
+     */
+    protected function buildItemArray()
+    {
+        if(isset($this->items[0]['plan'])){
+            return $this->items;
+        }
+        $items = [];
+        foreach ($this->items as $item) {
+            $items[]['plan'] = $item;
+        }
+
+        return $items;
     }
 
     /**
