@@ -128,6 +128,7 @@ class InvoiceItem
      * @param  string  $key
      * @return mixed
      */
+
     public function __get($key)
     {
         return $this->item->{$key};
