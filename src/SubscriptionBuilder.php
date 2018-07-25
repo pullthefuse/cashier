@@ -192,15 +192,30 @@ class SubscriptionBuilder
     {
         $customer = $this->getStripeCustomer($token, $options);
 
-        $subscription = $customer->subscriptions->create($this->buildPayload());
+        return $this->successfulSubscription($customer->subscriptions->create($this->buildPayload()));
 
-        if ($this->skipTrial) {
-            $trialEndsAt = null;
+    }
+
+    protected function successfulSubscription($subscription)
+    {
+        if($successMethod = $this->owner->successfulSubscription($subscription)) {
+            return $successMethod;
         } else {
-            $trialEndsAt = $this->trialExpires;
-        }
 
-        return $subscription;
+            if ($this->skipTrial) {
+                $trialEndsAt = null;
+            } else {
+                $trialEndsAt = $this->trialExpires;
+            }
+            return $this->owner->subscriptions()->create([
+                'name' => $subscription->id,
+                'stripe_id' => $subscription->id,
+                'stripe_plan' => $this->plan,
+                'quantity' => $this->quantity,
+                'trial_ends_at' => $trialEndsAt,
+                'ends_at' => null,
+            ]);
+        }
     }
 
     /**
