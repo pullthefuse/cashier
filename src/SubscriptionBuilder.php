@@ -22,18 +22,11 @@ class SubscriptionBuilder
     protected $name;
 
     /**
-     * The name of the plan being subscribed to.
+     * The list of plans being subscribed to.
      *
-     * @var string
+     * @var array
      */
-    protected $plan;
-
-    /**
-     * The quantity of the subscription.
-     *
-     * @var int
-     */
-    protected $quantity = 1;
+    protected $items;
 
     /**
      * The date and time the trial will expire.
@@ -64,6 +57,13 @@ class SubscriptionBuilder
     protected $coupon;
 
     /**
+     * The tax being applied to the customer.
+     *
+     * @var string|null
+     */
+    protected $tax;
+
+    /**
      * The metadata to apply to the subscription.
      *
      * @var array|null
@@ -74,28 +74,14 @@ class SubscriptionBuilder
      * Create a new subscription builder instance.
      *
      * @param  mixed  $owner
-     * @param  string  $name
-     * @param  string  $plan
+     * @param  array  $items
      * @return void
      */
-    public function __construct($owner, $name, $plan)
+    public function __construct($owner, $items)
     {
         $this->name = $name;
-        $this->plan = $plan;
+        $this->items = $items;
         $this->owner = $owner;
-    }
-
-    /**
-     * Specify the quantity of the subscription.
-     *
-     * @param  int  $quantity
-     * @return $this
-     */
-    public function quantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     /**
@@ -167,6 +153,19 @@ class SubscriptionBuilder
     }
 
     /**
+     * The coupon to apply to a new subscription.
+     *
+     * @param  string  $coupon
+     * @return $this
+     */
+    public function withTax($tax)
+    {
+        $this->tax = $tax;
+
+        return $this;
+    }
+
+    /**
      * The metadata to apply to a new subscription.
      *
      * @param  array  $metadata
@@ -209,14 +208,7 @@ class SubscriptionBuilder
             $trialEndsAt = $this->trialExpires;
         }
 
-        return $this->owner->subscriptions()->create([
-            'name' => $this->name,
-            'stripe_id' => $subscription->id,
-            'stripe_plan' => $this->plan,
-            'quantity' => $this->quantity,
-            'trial_ends_at' => $trialEndsAt,
-            'ends_at' => null,
-        ]);
+        return 'Success';
     }
 
     /**
@@ -252,8 +244,7 @@ class SubscriptionBuilder
             'billing_cycle_anchor' => $this->billingCycleAnchor,
             'coupon' => $this->coupon,
             'metadata' => $this->metadata,
-            'plan' => $this->plan,
-            'quantity' => $this->quantity,
+            'items' => $this->items,
             'tax_percent' => $this->getTaxPercentageForPayload(),
             'trial_end' => $this->getTrialEndForPayload(),
         ]);
@@ -282,7 +273,9 @@ class SubscriptionBuilder
      */
     protected function getTaxPercentageForPayload()
     {
-        if ($taxPercentage = $this->owner->taxPercentage()) {
+        if($this->tax != null){
+            return $this->tax;
+        } elseif ($taxPercentage = $this->owner->taxPercentage()) {
             return $taxPercentage;
         }
     }

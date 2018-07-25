@@ -126,13 +126,12 @@ trait Billable
     /**
      * Begin creating a new subscription.
      *
-     * @param  string  $subscription
-     * @param  string  $plan
+     * @param  array  $items
      * @return \Laravel\Cashier\SubscriptionBuilder
      */
-    public function newSubscription($subscription, $plan)
+    public function newSubscription($items)
     {
-        return new SubscriptionBuilder($this, $subscription, $plan);
+        return new SubscriptionBuilder($this, $items);
     }
 
     /**
