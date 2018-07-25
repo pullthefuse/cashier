@@ -269,6 +269,21 @@ trait Billable
     }
 
     /**
+     * Find an invoice item by ID.
+     *
+     * @param  string  $id
+     * @return \Laravel\Cashier\Invoice|null
+     */
+    public function findInvoiceItem($id)
+    {
+        try {
+            return new Invoice($this, StripeInvoiceItem::retrieve($id, $this->getStripeKey()));
+        } catch (Exception $e) {
+            //
+        }
+    }
+
+    /**
      * Find an invoice or throw a 404 error.
      *
      * @param  string  $id
