@@ -15,13 +15,6 @@ class SubscriptionBuilder
     protected $owner;
 
     /**
-     * The name of the subscription.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * The list of plans being subscribed to.
      *
      * @var array
@@ -79,7 +72,6 @@ class SubscriptionBuilder
      */
     public function __construct($owner, $items)
     {
-        $this->name = $name;
         $this->items = $items;
         $this->owner = $owner;
     }
