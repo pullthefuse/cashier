@@ -147,7 +147,7 @@ class SubscriptionBuilder
     /**
      * The coupon to apply to a new subscription.
      *
-     * @param  string  $coupon
+     * @param $tax
      * @return $this
      */
     public function withTax($tax)
@@ -198,8 +198,10 @@ class SubscriptionBuilder
 
     protected function successfulSubscription($subscription)
     {
-        if($successMethod = $this->owner->successfulSubscription($subscription)) {
-            return $successMethod;
+        if(method_exists($this->owner, 'successfulSubscription'))  {
+
+            return $this->owner->successfulSubscription($subscription);
+
         } else {
 
             if ($this->skipTrial) {
@@ -210,8 +212,6 @@ class SubscriptionBuilder
             return $this->owner->subscriptions()->create([
                 'name' => $subscription->id,
                 'stripe_id' => $subscription->id,
-                'stripe_plan' => $this->plan,
-                'quantity' => $this->quantity,
                 'trial_ends_at' => $trialEndsAt,
                 'ends_at' => null,
             ]);
