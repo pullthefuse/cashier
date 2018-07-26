@@ -12,9 +12,9 @@ class Plan {
 
     protected $active = true;
 
-    protected $aggregate_usage = 'sum';
+    protected $aggregate_usage;
 
-    protected $billing_scheme = 'per_unit';
+    protected $billing_scheme;
 
     protected $interval_count = 1;
 
@@ -22,13 +22,13 @@ class Plan {
 
     protected $tiers = [];
 
-    protected $tiers_mode = 'volume';
+    protected $tiers_mode;
 
     protected $transform_usage = [];
 
     protected $trial_period_days;
 
-    protected $usage_type = 'licensed';
+    protected $usage_type;
 
     protected $options = [];
 
