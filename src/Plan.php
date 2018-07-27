@@ -14,6 +14,13 @@ class Plan {
     protected $plan_id;
 
     /**
+     * The plan id.
+     *
+     * @var StripePlan
+     */
+    protected $plan;
+
+    /**
      * Set Plan id when instantiating.
      *
      * @param $plan_id
@@ -31,21 +38,22 @@ class Plan {
      */
     public function update(array $payload)
     {
-        $p = $this->getPlan();
         foreach($payload as $k => $v) {
-            $p->{$k} = $v;
+            $this->plan->{$k} = $v;
         }
-        return $p->save();
+        return $this->plan->save();
     }
 
     /**
      * Retrieve plan from Stripe.
      *
-     * @return StripePlan
+     * @return Plan
      */
     public function getPlan()
     {
-        return StripePlan::retrieve($this->plan_id, ['api_key' => config('services.stripe.secret')]);
+        $this->plan = StripePlan::retrieve($this->plan_id, ['api_key' => config('services.stripe.secret')]);
+
+        return $this;
     }
 
     /**

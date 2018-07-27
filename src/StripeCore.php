@@ -12,29 +12,17 @@ trait StripeCore {
      * @param $options
      * @return PlanBuilder
      */
-    public function newPlan($product, $amount, $options)
+    public function newStripePlan($product, $amount, $options)
     {
         return new PlanBuilder($product, $amount, $options);
     }
 
     /**
-     * Update a Strip Plan.
-     *
-     * @param $plan_id
-     * @param $payload
-     * @return \Stripe\Plan
-     */
-    public function updatePlan($plan_id, $payload)
-    {
-        return (new Plan($plan_id))->update($payload);
-    }
-
-    /**
      * Retrieve a Stripe Plan.
      * @param $plan_id
-     * @return \Stripe\Plan
+     * @return Plan
      */
-    public function getPlan($plan_id)
+    public function findStripePlan($plan_id)
     {
         return (new Plan($plan_id))->getPlan();
     }
@@ -44,7 +32,7 @@ trait StripeCore {
      *
      * @return Plan
      */
-    public function getPlans()
+    public function getStripePlans()
     {
         return new Plan;
     }
