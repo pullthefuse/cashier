@@ -14,10 +14,6 @@ trait StripeCore {
      */
     public function newStripePlan($product, $amount, $options)
     {
-        $options = array_merge([
-            'currency' => $this->preferredCurrency(),
-        ], $options);
-
         return new PlanBuilder($product, $amount, $options);
     }
 
@@ -42,5 +38,5 @@ trait StripeCore {
     {
         return new Plan;
     }
-    
+
 }
