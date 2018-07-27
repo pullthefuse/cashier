@@ -25,18 +25,7 @@ trait Billable
      * @var string
      */
     protected static $stripeKey;
-
-    function test(Product $product)
-    {
-        $options = ['interval' => 'week'];
-        $product = [];
-
-        $product->createPlan($product, 12000, $options);
-
-//        (new Product('New Product'))->createPlan('New Plan', 12000, ['interval' => 'week']);
-//
-//        $plan->create('New Plan', 12000, ['interval' => 'week']);
-    }
+    
     /**
      * Make a "one off" charge on the customer for the given amount.
      *

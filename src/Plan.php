@@ -2,110 +2,60 @@
 
 namespace Laravel\Cashier;
 
-use \Stripe\Plan as StripePlan;
+use Stripe\Plan as StripePlan ;
 
 class Plan {
 
-    protected $id;
-
-    protected $interval = 'month';
-
-    protected $active = true;
-
-    protected $aggregate_usage;
-
-    protected $billing_scheme;
-
-    protected $interval_count = 1;
-
-    protected $nickname;
-
-    protected $tiers = [];
-
-    protected $tiers_mode;
-
-    protected $transform_usage = [];
-
-    protected $trial_period_days;
-
-    protected $usage_type;
-
-    protected $options = [];
+    /**
+     * The plan id.
+     *
+     * @var string
+     */
+    protected $plan_id;
 
     /**
-     * The metadata to apply to the subscription.
+     * Set Plan id when instantiating.
      *
-     * @var array|null
+     * @param $plan_id
      */
-    protected $metadata;
-
-    public function create($product, $amount, array $options = [])
+    public function __construct($plan_id = '')
     {
-        $this->options = $options;
-
-        return StripePlan::create($this->getPayload($product, $amount), ['api_key' => config('services.stripe.secret')]);
+        $this->plan_id = $plan_id;
     }
 
-    protected function getPayload($product, $amount)
+    /**
+     * Update a stripe plan.
+     *
+     * @param array $payload
+     * @return StripePlan
+     */
+    public function update(array $payload)
     {
-        return array(
-            'id' => $this->id,
-            'currency' => Cashier::usesCurrency(),
-            'interval' => $this->getOptions('interval'),
-            'product' => $product,
-            'amount' => $amount,
-            'aggregate_usage' => $this->getOptions('aggregate_usage'),
-            'billing_scheme' => $this->getOptions('billing_scheme'),
-            'interval_count' => $this->interval_count,
-            'meta_data' => $this->metadata,
-            'nickname' => $this->getOptions('nickname'),
-            'active' => $this->getOptions('active'),
-            'tiers' => $this->tiers, // Need to manage
-            'tiers_mode' => $this->getOptions('tiers_mode'),
-            'transform_usage' => $this->transform_usage, // Add Later
-            'trial_period_days' => $this->trial_period_days,
-            'usage_type' => $this->getOptions('usage_type')
-        );
-    }
-
-    protected function getOptions($value)
-    {
-        if(isset($this->options[$value])) {
-            return $this->options[$value];
+        $p = $this->getPlan();
+        foreach($payload as $k => $v) {
+            $p->{$k} = $v;
         }
-        return $this->{$value};
+        return $p->save();
     }
 
     /**
-     * The metadata to apply to a new plan.
+     * Retrieve plan from Stripe.
      *
-     * @param  array  $metadata
-     * @return $this
+     * @return StripePlan
      */
-    public function withMetadata($metadata)
+    public function getPlan()
     {
-        $this->metadata = $metadata;
-
-        return $this;
+        return StripePlan::retrieve($this->plan_id, ['api_key' => config('services.stripe.secret')]);
     }
 
     /**
-     * Specify the number of days of the trial.
+     * Retrieve all plans.
      *
-     * @param  int  $trialDays
-     * @return $this
+     * @return \Stripe\Collection
      */
-    public function trialDays($trialDays)
+    public function all()
     {
-        $this->trial_period_days = $trialDays;
-
-        return $this;
+        return StripePlan::all();
     }
 
-    public function setInterval($count)
-    {
-        $this->interval_count = $count;
-
-        return $this;
-    }
 }
