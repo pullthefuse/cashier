@@ -58,7 +58,7 @@ class PlanBuilder {
     {
         return array(
             'id' => $this->id,
-            'currency' => Cashier::usesCurrency(),
+            'currency' => $this->getOptions('currency'),
             'interval' => $this->getOptions('interval'),
             'product' => $this->product,
             'amount' => $this->amount,

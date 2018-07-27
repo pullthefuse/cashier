@@ -14,8 +14,14 @@ trait StripeCore {
      */
     public function newStripePlan($product, $amount, $options)
     {
+        $options = array_merge([
+            'currency' => $this->preferredCurrency(),
+        ], $options);
+
         return new PlanBuilder($product, $amount, $options);
     }
+
+
 
     /**
      * Retrieve a Stripe Plan.
@@ -35,5 +41,15 @@ trait StripeCore {
     public function getStripePlans()
     {
         return new Plan;
+    }
+
+    /**
+     * Get the Stripe supported currency used by the entity.
+     *
+     * @return string
+     */
+    public function preferredCurrency()
+    {
+        return Cashier::usesCurrency();
     }
 }
