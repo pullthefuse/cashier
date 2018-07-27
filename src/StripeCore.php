@@ -2,7 +2,7 @@
 
 namespace Laravel\Cashier;
 
-trait Stripe {
+trait StripeCore {
 
     /**
      * Create a new Stripe plan.
