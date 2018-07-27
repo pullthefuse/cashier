@@ -42,14 +42,5 @@ trait StripeCore {
     {
         return new Plan;
     }
-
-    /**
-     * Get the Stripe supported currency used by the entity.
-     *
-     * @return string
-     */
-    public function preferredCurrency()
-    {
-        return Cashier::usesCurrency();
-    }
+    
 }

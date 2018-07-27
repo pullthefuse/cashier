@@ -58,7 +58,7 @@ class PlanBuilder {
     {
         return array(
             'id' => $this->id,
-            'currency' => $this->getOptions('currency'),
+            'currency' => $this->getCurrency(),
             'interval' => $this->getOptions('interval'),
             'product' => $this->product,
             'amount' => $this->amount,
@@ -115,5 +115,19 @@ class PlanBuilder {
         $this->interval_count = $count;
 
         return $this;
+    }
+
+    /**
+     * Get the Stripe supported currency used by the entity.
+     *
+     * @return string
+     */
+    protected function getCurrency()
+    {
+        if(isset($this->options['currency'])) {
+            return $this->options['currency'];
+        };
+
+        return Cashier::usesCurrency();
     }
 }
