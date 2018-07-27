@@ -126,7 +126,7 @@ class PlanBuilder {
     {
         if(isset($this->options['currency'])) {
             return $this->options['currency'];
-        };
+        }
 
         return Cashier::usesCurrency();
     }
