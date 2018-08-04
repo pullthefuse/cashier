@@ -37,9 +37,9 @@ trait Billable
      */
     public function charge($amount, array $options = [])
     {
-        $options = array_merge([
-            'currency' => $this->preferredCurrency(),
-        ], $options);
+        if (! array_key_exists('currency', $options)) {
+            $options['currency'] = $this->preferredCurrency();
+        }
 
         $options['amount'] = $amount;
 
@@ -99,9 +99,12 @@ trait Billable
         $options = array_merge([
             'customer' => $this->stripe_id,
             'amount' => $amount,
-            'currency' => $this->preferredCurrency(),
             'description' => $description,
         ], $options);
+
+        if (! array_key_exists('currency', $options)) {
+            $options['currency'] = $this->preferredCurrency();
+        }
 
         return StripeInvoiceItem::create(
             $options, ['api_key' => $this->getStripeKey()]
