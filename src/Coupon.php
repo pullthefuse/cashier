@@ -4,21 +4,29 @@ namespace Laravel\Cashier;
 use Stripe\Coupon as StripeCoupon;
 
 class Coupon {
-
-    /*
-     * var string
-     */
+    
     protected $id;
 
-    /*
-     * var array
-     */
     protected $options;
 
-    /*
-     * @var array|null
-     */
     protected $meta_data;
+
+    protected $duration;
+
+    protected $duration_in_months;
+
+    protected $currency;
+
+    protected $max_redemptions;
+
+    protected $name;
+
+    protected $percent_off;
+
+    protected $amount_off;
+
+    protected $redeem_by;
+
 
     /**
      * Coupon constructor.
