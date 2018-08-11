@@ -46,7 +46,7 @@ trait StripeCore {
      * @param $options
      * @return Coupon
      */
-    public function newCoupon($id, $options)
+    public function newStripeCoupon($id, $options)
     {
         return new Coupon($id, $options);
     }
