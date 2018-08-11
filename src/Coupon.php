@@ -4,7 +4,7 @@ namespace Laravel\Cashier;
 use Stripe\Coupon as StripeCoupon;
 
 class Coupon {
-    
+
     protected $id;
 
     protected $options;
@@ -52,7 +52,7 @@ class Coupon {
 
     private function getPayload()
     {
-        return [
+        return array(
             'id' => $this->id,
             'duration' => $this->getOptions('duration'),
             'amount_off' => $this->getOptions('amount_off'),
@@ -63,7 +63,7 @@ class Coupon {
             'name' => $this->getOptions('name'),
             'percent_off' => $this->getOptions('percent_off'),
             'redeem_by' => $this->getOptions('redeem_by')
-        ];
+        );
     }
 
     /**
