@@ -35,6 +35,8 @@ class PlanBuilder {
 
     protected $options = [];
 
+    protected $meta_data;
+
     /**
      * The metadata to apply to the subscription.
      *
@@ -76,6 +78,12 @@ class PlanBuilder {
         );
     }
 
+    /**
+     * Get the options.
+     *
+     * @param $value
+     * @return mixed
+     */
     protected function getOptions($value)
     {
         if(isset($this->options[$value])) {

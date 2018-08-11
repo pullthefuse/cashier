@@ -39,4 +39,16 @@ trait StripeCore {
         return new Plan;
     }
 
+    /**
+     * Create a new Coupon.
+     *
+     * @param $id
+     * @param $options
+     * @return Coupon
+     */
+    public function newCoupon($id, $options)
+    {
+        return new Coupon($id, $options);
+    }
+
 }
